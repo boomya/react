@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Hello World</title>
+    </head>
+    <body>
+        <div id="app"></div>
+        <script type="text/javascript" src="bower_components/react/react.js"></script>
+        <script type="text/javascript" src="bower_components/react/JSXTransformer.js"></script>
+        <script type="text/jsx">
+                var MessageBox = React.createClass({
+                    getInitialState: function () {
+                        return {
+                            subMessages:[
+                                "test message 1",
+                                "test message 2",
+                                "test message 3",
+                            ],
+                        }
+                    },
+                    render: function() {
+                        return (
+                            <div>
+                                <h1>Hello World {this.props.name}</h1>
+                                <SubMessageBox  messages={this.state.subMessages}/>
+                            </div>
+
+                        );
+                    }
+                });
+
+                var SubMessageBox  = React.createClass({
+                    getDefaultProps: function () {
+                        return {messages:["default message"],}
+                    },
+                    render: function() {
+                        var msgs = [];
+                        this.props.messages.forEach(function (msg, index) {
+                            msgs.push(
+                                <p key={"key_" + index}>"message:" {msg} {index}</p>
+                            );
+                        });
+                        return (
+                            <div>
+                                {msgs}
+                            </div>
+                        );
+                    }
+
+                });
+
+                React.render(
+                    <MessageBox name={"shan"} />,
+                    document.getElementById("app"),
+                    function () {
+                        console.log("render finished.");
+                    }
+                );
+        </script>
+    </body>
+</html>
