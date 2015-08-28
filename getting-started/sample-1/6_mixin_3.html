@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Hello World</title>
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script type="text/javascript" src="bower_components/react/react.js"></script>
+        <script type="text/javascript" src="bower_components/react/JSXTransformer.js"></script>
+        <script type="text/jsx">
+            var stateRecordMixin = {
+                componentWillMount: function () {
+                    console.log("stateRecordMixin componentWillMount");
+                    this.states = [];
+                },
+                componentWillUpdate: function (nextProp, nextState) {
+                    console.log("stateRecordMixin componentWillUpdate");
+                    this.states.push(nextState);
+                },
+                previousState: function () {
+                    var index = this.states.length - 1;
+                    var stateTmp = index==-1 ? {count:0} : this.states[index-1];
+                    if(stateTmp == null){
+                        return {count:0};
+                    }
+                    return stateTmp;
+                },
+            }
+            var MessageBox = React.createClass({
+                mixins: [ stateRecordMixin ],
+                getInitialState: function () {
+                    return {
+                        count: 0,
+                    }
+                },
+                componentWillMount: function () {
+                    console.log("componentWillMount");
+                    this.states = [];
+                },
+                componentWillUpdate: function (nextProp, nextState) {
+                    console.log("componentWillUpdate");
+                    this.states.push(nextState);
+                },
+                doUpdate: function () {
+                    this.setState({
+                        count: this.state.count + 1,
+                    });
+                },
+                render: function() {
+                    console.log("render");
+                    return (
+                        <div>
+                            <h3>{this.state.count} || {this.previousState().count}</h3>
+                            <br />
+                            <button type="button" name="button" onClick={this.doUpdate}>Add</button>
+                        </div>
+                    );
+                }
+
+            });
+
+            var SubMessageBox = React.createClass({
+                mixins: [ stateRecordMixin ],
+                getInitialState: function () {
+                    return {
+                        count: 0,
+                    }
+                },
+                componentWillReceiveProps: function (nextProp) {
+                    this.setState({
+                        count:nextProp.count * 10,
+                    })
+                },
+                render: function() {
+                    return (
+                        <div>
+                            <h3>SubMessageBox {this.state.count} || {this.previousState().count} </h3>
+                            <SubSubMessageBox {...this.props} />
+                        </div>
+                    );
+                }
+
+            });
+
+            var SubSubMessageBox = React.createClass({
+                mixins: [ stateRecordMixin ],
+                getInitialState: function () {
+                    return {
+                        count: 0,
+                    }
+                },
+                componentWillReceiveProps: function (nextProp) {
+                    this.setState({
+                        count:nextProp.count * 100,
+                    })
+                },
+                render: function() {
+                    return (
+                        <div>
+                            <h4>SubSubMessageBox {this.state.count} || {this.previousState().count} </h4>
+                        </div>
+                    );
+                }
+
+            });
+
+            React.render(
+                <MessageBox name={"shan"} />,
+                document.getElementById("app"),
+                function () {
+                    console.log("render finished.");
+                }
+            );
+        </script>
+    </body>
+</html>

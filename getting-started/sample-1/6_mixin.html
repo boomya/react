@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Hello World</title>
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script type="text/javascript" src="bower_components/react/react-with-addons.js"></script>
+        <script type="text/javascript" src="bower_components/react/JSXTransformer.js"></script>
+        <script type="text/jsx">
+
+            var MessageBox = React.createClass({
+                mixins: [ React.addons.LinkedStateMixin ],
+                getInitialState: function () {
+                    return {
+                        value: "awesome!!",
+                        isAwesome: true,
+                    }
+                },
+                render: function() {
+                    return (
+                        <div>
+                            <h3>{this.state.value}</h3>
+                            <input type="text" name="txtName" valueLink={this.linkState("value")} />
+                            <br />
+                            <input type="checkbox" name="chbAwesome" checkedLink={this.linkState("isAwesome")} />
+                            <SubMessageBox valueLink={this.linkState("value")} checkedLink={this.linkState("isAwesome")} />
+                        </div>
+                    );
+                }
+
+            });
+
+            var SubMessageBox = React.createClass({
+
+                render: function() {
+                    return (
+                        <div>
+                            <h3>SubMessageBox</h3>
+                            <input type="text" name="txtName" valueLink={this.props.valueLink} />
+                            <br />
+                            <input type="checkbox" name="chbAwesome" checkedLink={this.props.checkedLink} />
+                            <SubSubMessageBox {...this.props} />
+                        </div>
+                    );
+                }
+
+            });
+
+            var SubSubMessageBox = React.createClass({
+
+                render: function() {
+                    return (
+                        <div>
+                            <h4>SubSubMessageBox</h4>
+                            <input type="text" name="txtName" valueLink={this.props.valueLink} />
+                            <br />
+                            <input type="checkbox" name="chbAwesome" checkedLink={this.props.checkedLink} />
+                        </div>
+                    );
+                }
+
+            });
+
+            React.render(
+                <MessageBox name={"shan"} />,
+                document.getElementById("app"),
+                function () {
+                    console.log("render finished.");
+                }
+            );
+        </script>
+    </body>
+</html>

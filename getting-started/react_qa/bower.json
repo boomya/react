@@ -1,0 +1,19 @@
+{
+  "name": "react_qa",
+  "version": "0.0.0",
+  "homepage": "https://github.com/boomya/react",
+  "authors": [
+    "coder.jiangshan <j_shan1984@126.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5"
+  }
+}
