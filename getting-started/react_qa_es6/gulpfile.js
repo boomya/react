@@ -14,6 +14,7 @@ gulp.task('browserify', function () {
     })
     .transform(babelify)
     .bundle()
+    .on("error", function (err) { console.log("Error : " + err.message); })
     .pipe(source('bundle.js'))
     .pipe(gulp.dest('./dist'));
 
